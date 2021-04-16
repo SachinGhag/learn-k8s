@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: express-bgcolor-message
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: express-bgcolor-app
+  template:
+    metadata:
+      labels:
+        app: express-bgcolor-app
+    spec:
+      containers: 
+      - name: node-bgcolor
+        image: dharapvj/bgcolor-text-demo:1.0
+        ports:
+        - containerPort: 3000
+#        env:
+#        - name: MESSAGE
+#          value: "Hello from the environment"
+#        - name: BGCOLOR
+#          value: "#d4b290"
+#
