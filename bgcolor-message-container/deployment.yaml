@@ -1,16 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: express-bgcolor-message
+  name: message-app0
+  namespace: demo-app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: express-bgcolor-app
+      app: msg-label0
   template:
     metadata:
       labels:
-        app: express-bgcolor-app
+        app: msg-label0
     spec:
       containers: 
       - name: node-bgcolor

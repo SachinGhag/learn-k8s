@@ -1,0 +1,56 @@
+# Imperative definition of config map
+# kubectl create configmap bgcolor-config --from-literal=color-config="#ab88d3" --namespace demo-app
+# Imperative definition of config map from file
+---
+# Declarative definition of same config map
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: bgcolor-config
+  namespace: demo-app
+data:
+  color-config: "#78c8d3"
+---
+# Imperative definition of secret
+# kubectl create secret generic msg-secret --namespace demo-app --from-literal=msg="This text is provided from Secret" 
+
+# Declarative definition of same secret
+apiVersion: v1
+kind: Secret
+metadata:
+  name: msg-secret
+  namespace: demo-app
+data:
+  msg: VGhpcyB0ZXh0IGlzIHByb3ZpZGVkIGZyb20gU2VjcmV0Cg== # Bsae64 encoded "This text is provided from Secret"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: message-app2
+  namespace: demo-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: msg-label2
+  template:
+    metadata:
+      labels:
+        app: msg-label2
+    spec:
+      containers: 
+      - name: node-bgcolor
+        image: dharapvj/bgcolor-text-demo:1.0
+        ports:
+        - containerPort: 3000
+        env:
+        - name: MESSAGE
+          valueFrom:
+            secretKeyRef:
+              name: msg-secret
+              key: msg
+        - name: BGCOLOR
+          valueFrom:
+            configMapKeyRef:
+              name: bgcolor-config
+              key: color-config

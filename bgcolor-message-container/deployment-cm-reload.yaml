@@ -1,0 +1,49 @@
+# Imperative definition of config map
+# kubectl create configmap bgcolor-msg-config --from-literal=msg-config="This text is provided from configmap" --from-literal=color-config="#ab88d3" --namespace demo-app
+# Imperative definition of config map from file
+---
+# Declarative definition of same config map
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: reload-config
+  namespace: demo-app
+  annotations:
+    reloader.stakater.com/match: "true"
+data:
+  msg-config: This text can be changed in configmap and will reflect in app automatically
+  color-config: "#ab88d3"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: message-app1-reload
+  namespace: demo-app
+  annotations:
+    reloader.stakater.com/search: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: msg-label1-reload
+  template:
+    metadata:
+      labels:
+        app: msg-label1-reload
+    spec:
+      containers: 
+      - name: node-bgcolor
+        image: dharapvj/bgcolor-text-demo:1.0
+        ports:
+        - containerPort: 3000
+        env:
+        - name: MESSAGE
+          valueFrom:
+            configMapKeyRef:
+              name: reload-config
+              key: msg-config
+        - name: BGCOLOR
+          valueFrom:
+            configMapKeyRef:
+              name: reload-config
+              key: color-config
