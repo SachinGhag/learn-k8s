@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sleepy-deployment
+  labels:
+    app: sleepy
+spec:
+  replicas: 10
+  strategy:
+    rollingUpdate:
+      maxSurge: 3
+      maxUnavailable: 2
+  selector:
+    matchLabels:
+      app: sleepy
+  template:
+    metadata:
+      labels:
+        app: sleepy
+    spec:
+      containers:
+      - name: busybox
+        image: busybox:1.25
+        #image: busybox:1.24
+        args:
+        - sleep
+        - "1000"
