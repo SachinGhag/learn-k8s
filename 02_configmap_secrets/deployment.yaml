@@ -4,7 +4,7 @@ metadata:
   name: message-app0
   namespace: demo-app
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: msg-label0
@@ -18,9 +18,8 @@ spec:
         image: dharapvj/bgcolor-text-demo:1.0
         ports:
         - containerPort: 3000
-#        env:
-#        - name: MESSAGE
-#          value: "Hello from the environment"
-#        - name: BGCOLOR
-#          value: "#d4b290"
-#
+        env:
+        - name: MESSAGE
+          value: "Hello from the environment"
+        - name: BGCOLOR
+          value: "#d4b290"

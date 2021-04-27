@@ -1,0 +1,17 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: pod
+  name: multi-port-demo
+spec:
+  containers:
+    - image: dharapvj/multi-port-listern:1.0
+      imagePullPolicy: Always # to force pull new image
+      name: express-app
+      ports:
+        - containerPort: 3001
+        - containerPort: 3002
+
+# run netshoot pod and access <pod_ip>:3001 and 3002

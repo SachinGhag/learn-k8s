@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: logging
+spec:
+# Look! No "replica" attribute
+  updateStrategy:
+    type: RollingUpdate  # This is default anyways. I am just stating the obvious
+  selector:
+    matchLabels:
+      app: httpd-logging
+  template:
+    metadata:
+      labels:
+        app: httpd-logging
+    spec:
+      containers:
+        - name: webserver
+          image: httpd:2.4
+#          image: httpd:2.4.43-alpine  # to demo the rolling update
+          ports:
+          - containerPort: 80

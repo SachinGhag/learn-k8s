@@ -21,7 +21,7 @@ metadata:
   name: msg-secret
   namespace: demo-app
 data:
-  msg: VGhpcyB0ZXh0IGlzIHByb3ZpZGVkIGZyb20gU2VjcmV0Cg== # Bsae64 encoded "This text is provided from Secret"
+  msg: VGhpcyB0ZXh0IGlzIHByb3ZpZGVkIGZyb20gU2VjcmV0Cg== # Base64 encoded "This text is provided from Secret"
 ---
 apiVersion: apps/v1
 kind: Deployment
